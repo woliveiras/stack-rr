@@ -167,3 +167,19 @@ For Global VPN: Go to the `docker-compose.yml` file and add the following lines:
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
       - UPDATER_PERIOD=
 ```
+
+## Demo: Downloading Public Domain Content
+
+In Radarr, try downloading public domain movies:
+
+Click on **Add New Movie** and search for `Night of the Living Dead (1968)`.
+
+Watch as it changes to Downloading and appears in qBittorrent.
+
+Repeat with `Nosferatu (1922)` and `The City of the Dead (1960)`.
+
+In Jellyfin/Plex, you’ll see the movies with covers, synopsis, and actors ready to play.
+
+You can find more public domain movies at [JustWatch](https://www.justwatch.com/us/provider/public-domain-movies?sort_by=trending_7_day).
+
+For public domain books, you can use [goodreads](https://www.goodreads.com/shelf/show/public-domain).
