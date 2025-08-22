@@ -17,3 +17,5 @@ books
 download-client-downloads
 music
 tv
+.env
+.DS_Store
