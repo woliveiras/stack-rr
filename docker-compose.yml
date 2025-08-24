@@ -99,10 +99,11 @@ services:
     volumes:
       - ${ARRPATH}/readarr/data:/config
       - ${ARRPATH}/books:/books
-      - ${ARRPATH}/download-client-downloads:/downloads
+      - ${ARRPATH}/downloads:/downloads
     ports:
       - 8787:8787       # Web Interface
-
+    env_file:
+      - ./.env
 
   # Subtitle Management
   bazarr:
@@ -115,6 +116,28 @@ services:
       - ${ARRPATH}sonarr/tvshows:/data/tvshows
     ports:
       - 6767:6767       # Web Interface
+    env_file:
+      - ./.env
+
+  # Request Management
+  # Unified Requests for Movies and TV Shows
+  # Connects with Sonarr, Radarr, Lidarr, Readarr, and Plex/Jellyfin
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    ports:
+      - 5055:5055       # Web Interface
+    env_file:
+      - ./.env
+    volumes:
+      - ${ARRPATH}/jellyseerr/config:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    restart: unless-stopped
 
   # Multimedia Streaming Servers
   jellyfin:
@@ -126,6 +149,7 @@ services:
       - ${ARRPATH}jellyfin/config:/config
       - ${ARRPATH}radarr/movies:/data/movies
       - ${ARRPATH}sonarr/tvshows:/data/tvshows
+      - ${ARRPATH}/downloads:/downloads
     ports:
       - "8096:8096/tcp"   # Web Interface
       - "7359:7359/udp"   # Auto Discovery
@@ -147,5 +171,6 @@ services:
       - ${ARRPATH}plex/config:/config
       - ${ARRPATH}sonarr/tvshows:/data/tvshows
       - ${ARRPATH}radarr/movies:/data/movies
+      - ${ARRPATH}/downloads:/downloads
     env_file:
       - ./.env
