@@ -131,6 +131,14 @@ Go through the initial setup process, creating an admin user and adding your med
 
 You can install the Jellyfin app on your smart TV, phone, or tablet to stream your media. When asked for the server address, use `http://<YOUR_SERVER>:8096`. The username and password are the ones you created during the initial setup.
 
+### Jellyseerr (Optional)
+
+Jellyseerr is a request management system for movies and TV shows that integrates with Radarr, Sonarr, and Plex/Jellyfin.
+
+It allows users to request new content, view existing requests, and manage their media library through a user-friendly interface.
+
+Access `http://localhost:5055/` and follow the initial setup instructions.
+
 ## VPN Setup (Optional)
 
 For Global VPN: Go to the `docker-compose.yml` file and add the following lines:
