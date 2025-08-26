@@ -21,3 +21,5 @@ jellyseerr
 .env
 .DS_Store
 gluetun
+config
+data
