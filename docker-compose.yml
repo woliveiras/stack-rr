@@ -4,6 +4,8 @@ services:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     hostname: qbittorrent
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/qbittorrent:/config
@@ -23,6 +25,8 @@ services:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     hostname: prowlarr
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/prowlarr:/config
@@ -37,6 +41,8 @@ services:
     image: lscr.io/linuxserver/jackett:latest
     container_name: jackett
     hostname: jackett
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/jackett:/config
@@ -51,6 +57,8 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     hostname: sonarr
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/sonarr:/config
@@ -66,6 +74,8 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     hostname: radarr
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/radarr:/config
@@ -82,6 +92,8 @@ services:
     image: ghcr.io/hotio/lidarr:latest
     container_name: lidarr
     hostname: lidarr
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/lidarr:/config
@@ -97,6 +109,8 @@ services:
     image: ghcr.io/hotio/readarr:latest
     container_name: readarr
     hostname: readarr
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/readarr:/config
@@ -112,6 +126,8 @@ services:
     image: ghcr.io/hotio/bazarr:latest
     container_name: bazarr
     hostname: bazarr
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/bazarr:/config
@@ -129,6 +145,8 @@ services:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     hostname: jellyseerr
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/jellyseerr:/app/config
@@ -142,6 +160,8 @@ services:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     hostname: jellyfin
+    networks:
+      - media
     restart: unless-stopped
     volumes:
       - ${ARRPATH}config/jellyfin:/config
@@ -154,3 +174,7 @@ services:
       - "1900:1900/udp"   # DLNA/UPnP
     env_file:
       - ./.env
+
+networks:
+  media:
+    driver: bridge
