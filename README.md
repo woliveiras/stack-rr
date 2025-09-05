@@ -202,3 +202,145 @@ docker-compose up -d
 ```
 
 This will pull the latest images and restart the containers with the updated versions.
+---
+
+## Example .env File
+
+Here is a sample `.env` file for quick reference:
+
+```env
+ARRPATH=/Users/<User>/Downloads/RADARR/data/   # Path to your media library, keep the final slash
+TZ=Europe/Madrid                                # Set your timezone
+PUID=1000                                       # User ID for permissions
+PGID=1000                                       # Group ID for permissions
+UMASK=002                                       # File creation mask
+```
+
+---
+
+## Backup and Restore Instructions
+
+To backup your configuration and databases, simply copy the relevant folders from the `config/` directory (e.g., `config/radarr/`, `config/sonarr/`, etc.) and the `data/` directory for your media files.
+
+**Backup Example:**
+
+```bash
+cp -r config/radarr/ ~/radarr-backup/
+cp -r data/movies/ ~/movies-backup/
+```
+
+**Restore Example:**
+
+```bash
+cp -r ~/radarr-backup/ config/radarr/
+cp -r ~/movies-backup/ data/movies/
+```
+
+For automated backups, consider using tools like [Duplicati](https://www.duplicati.com/) or [rsync](https://rsync.samba.org/).
+
+---
+
+## Official Documentation Links
+
+- [Radarr Documentation](https://wiki.servarr.com/radarr)
+- [Sonarr Documentation](https://wiki.servarr.com/sonarr)
+- [Lidarr Documentation](https://wiki.servarr.com/lidarr)
+- [Readarr Documentation](https://wiki.servarr.com/readarr)
+- [Bazarr Documentation](https://wiki.bazarr.media/)
+- [qBittorrent Documentation](https://github.com/qbittorrent/qBittorrent/wiki)
+- [Jellyfin Documentation](https://jellyfin.org/docs/)
+- [Jellyseerr Documentation](https://docs.jellyseerr.com/)
+
+---
+
+## Useful Docker Commands
+
+Check running containers:
+
+```bash
+docker-compose ps
+```
+
+View logs for a specific container:
+
+```bash
+docker logs <container_name>
+```
+
+Restart a container:
+
+```bash
+docker-compose restart <service_name>
+```
+
+Stop all containers:
+
+```bash
+docker-compose down
+```
+
+---
+
+## Security Recommendations
+
+- **Restrict External Access:** Only expose necessary ports. Use firewall rules to block unwanted traffic.
+- **Use VPN:** For remote access, prefer VPN solutions (see the VPN Setup section above).
+- **Update Regularly:** Keep your Docker images up to date (`docker-compose pull`).
+- **Change Default Passwords:** Always change default credentials for all services.
+- **Use HTTPS:** If exposing services externally, consider using a reverse proxy (e.g., Nginx, Traefik) with SSL certificates.
+
+---
+
+## Customizing Volumes and Paths
+
+You can change the default paths for your media and configuration by editing the `docker-compose.yml` and `.env` files. For example, to use a different folder for movies, update the volume mapping:
+
+```yaml
+   radarr:
+      ...existing code...
+      volumes:
+         - /custom/path/to/movies:/data/movies
+         - /custom/path/to/config:/config/radarr
+```
+
+Make sure the user running Docker has read/write permissions to these folders. Adjust `PUID`, `PGID`, and `UMASK` in your `.env` file as needed.
+
+---
+
+## FAQ: Common Problems and Solutions
+
+**1. Permission Issues**
+
+- *Symptoms:* Containers fail to access files or folders, errors about permissions.
+- *Solution:* Ensure your media/config folders are owned by the correct user/group. Use `chown` and `chmod` as needed:
+   ```bash
+   sudo chown -R 1000:1000 /path/to/media /path/to/config
+   sudo chmod -R 775 /path/to/media /path/to/config
+   ```
+
+**2. Ports Already in Use**
+
+- *Symptoms:* Docker fails to start containers due to port conflicts.
+- *Solution:* Change the exposed ports in `docker-compose.yml` or stop the conflicting service.
+
+**3. Containers Not Starting**
+
+- *Symptoms:* `docker-compose up` fails, containers exit immediately.
+- *Solution:* Run `docker-compose logs <service_name>` to check for errors. Common issues include missing environment variables, permission problems, or port conflicts.
+
+**4. Slow Downloads or No Connection**
+
+- *Symptoms:* qBittorrent or *arr apps can't download or connect to indexers.
+- *Solution:* Check your network settings, VPN configuration, and firewall rules. Make sure your server has internet access.
+
+**5. Lost Configuration or Data**
+
+- *Symptoms:* Settings or media disappear after restart.
+- *Solution:* Ensure your volumes are mapped correctly in `docker-compose.yml` and data is stored outside the container.
+
+**6. Web UI Not Accessible**
+
+- *Symptoms:* Can't access service via browser.
+- *Solution:* Confirm the container is running (`docker-compose ps`), check the correct port, and verify firewall settings.
+
+For more troubleshooting, consult the official documentation links above.
