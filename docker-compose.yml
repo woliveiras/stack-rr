@@ -10,6 +10,7 @@ services:
     volumes:
       - ${ARRPATH}config/qbittorrent:/config
       - ${ARRPATH}data/downloads:/downloads
+      - ${ARRPATH}data/movies:/data/movies
     ports:
       - "8081:8081"       # Web Interface
       - "6881:6881"       # TCP Port for Torrents
@@ -36,22 +37,7 @@ services:
       - "9696:9696"       # Web Interface
     env_file:
       - ./.env
-
-  jackett:
-    image: lscr.io/linuxserver/jackett:latest
-    container_name: jackett
-    hostname: jackett
-    networks:
-      - media
-    restart: unless-stopped
-    volumes:
-      - ${ARRPATH}config/jackett:/config
-      - ${ARRPATH}data/downloads:/downloads
-    ports:
-      - "9117:9117"       # Web Interface
-    env_file:
-      - ./.env
-
+  
   # Media Management (Movies and Series)
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -140,7 +126,7 @@ services:
 
   # Request Management
   # Unified Requests for Movies and TV Shows
-  # Connects with Sonarr, Radarr, Lidarr, Readarr, and Plex/Jellyfin
+  # Connects with Sonarr, Radarr, Lidarr, Readarr, and Jellyfin
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr

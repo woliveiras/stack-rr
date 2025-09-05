@@ -6,11 +6,11 @@ This repository contains a Docker Compose setup for managing various media appli
 
 In this guide, you’ll learn how to set up a fully automated media server that, when you add a movie or TV show, will:
 
-- Search for torrents/magnet links using Jackett/Prowlarr
+- Search for torrents/magnet links using Prowlarr and Jellyseerr (optional)
 - Manage content with Sonarr (TV shows), Radarr (movies), Readarr (books), and Lidarr (music)
 - Download subtitles with Bazarr
 - Download files via qBittorrent
-- Stream your media to your TV with Plex or Jellyfin
+- Stream your media to your TV with Jellyfin
 
 All you need is my `docker-compose.yml` file and a few environment variables!
 
@@ -191,3 +191,14 @@ In Jellyfin/Plex, you’ll see the movies with covers, synopsis, and actors read
 You can find more public domain movies at [JustWatch](https://www.justwatch.com/us/provider/public-domain-movies?sort_by=trending_7_day).
 
 For public domain books, you can use [goodreads](https://www.goodreads.com/shelf/show/public-domain).
+
+## Update Instructions
+
+To update the stack, navigate to the directory where your `docker-compose.yml` file is located and run:
+
+```bash
+docker-compose pull
+docker-compose up -d
+```
+
+This will pull the latest images and restart the containers with the updated versions.
